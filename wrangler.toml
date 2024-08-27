@@ -1,4 +1,4 @@
-name = "my-app"
+name = "youtube-captions-worker"
 compatibility_date = "2024-08-27"
 
 # [vars]

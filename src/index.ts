@@ -1,7 +1,10 @@
 import { getSubtitles } from "@treeee/youtube-caption-extractor";
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 
 const app = new Hono();
+
+app.use(cors());
 
 app.get("/subtitles", async (c) => {
   const { videoId, lang = "en" } = c.req.query();

@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 
 const app = new Hono();
 
@@ -36,7 +37,7 @@ const fetchTranscript = async (
   }
 };
 
-app.get("/subtitles", async (c) => {
+app.use(cors()).get("/subtitles", async (c) => {
   const { videoId, lang = "en" } = c.req.query();
 
   if (!videoId) {

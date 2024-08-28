@@ -41,15 +41,23 @@ app.use(cors()).get("/subtitles", async (c) => {
   const { videoId, lang = "en" } = c.req.query();
 
   if (!videoId) {
-    return c.json("Video ID is required", 400);
+    return c.json({ error: "Video ID is required" }, 400);
   }
 
   try {
     const subtitles = await fetchTranscript(videoId, lang);
 
-    return c.json(subtitles, 200);
+    if (!subtitles) {
+      return c.json({ error: "No subtitles found." }, 404);
+    }
+
+    return c.json({ data: subtitles }, 200);
   } catch (error) {
-    return c.json({ error: (error as Error).message }, 500);
+    console.error(
+      `Error fetching subtitles for videoId: ${videoId}, lang: ${lang}`,
+      error
+    );
+    return c.json({ error: { message: "Internal Server Error" } }, 500);
   }
 });
 

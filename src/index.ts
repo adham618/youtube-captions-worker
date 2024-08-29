@@ -24,13 +24,17 @@ const fetchTranscript = async (
   try {
     const info = await youtube.getInfo(videoId);
     const transcriptData = await info.getTranscript();
-    return transcriptData?.transcript?.content?.body?.initial_segments.map(
-      (segment) => ({
-        text: segment.snippet.text,
-        start: Number(segment.start_ms),
-        end: Number(segment.end_ms),
-      })
-    );
+    console.log(transcriptData.transcript?.content?.body);
+
+    return transcriptData?.transcript?.content?.body?.initial_segments
+      .filter((segment) => segment.type !== "TranscriptSectionHeader")
+      .map((segment) => {
+        return {
+          text: segment.snippet.text,
+          start: Number(segment.start_ms),
+          end: Number(segment.end_ms),
+        };
+      });
   } catch (error) {
     console.error("Error fetching transcript:", error);
     throw error;

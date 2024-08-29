@@ -34,7 +34,8 @@ const fetchTranscript = async (
           start: Number(segment.start_ms),
           end: Number(segment.end_ms),
         };
-      });
+      })
+      .filter((segment) => segment.text && !segment.text.includes("[Music]"));
   } catch (error) {
     console.error("Error fetching transcript:", error);
     throw error;

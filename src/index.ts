@@ -51,7 +51,7 @@ app.use(cors()).get("/subtitles", async (c) => {
       return c.json({ error: "No subtitles found." }, 404);
     }
 
-    return c.json({ data: subtitles }, 200);
+    return c.json(subtitles, 200);
   } catch (error) {
     console.error(
       `Error fetching subtitles for videoId: ${videoId}, lang: ${lang}`,
